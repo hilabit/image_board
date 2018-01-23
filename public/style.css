@@ -1,0 +1,11 @@
+#main {
+    display: grid;
+    grid-template-columns: repeat(3, 50px [col-start])
+    grid-template-rows: 50px;
+}
+
+
+img {
+    align-self: stretch;
+    padding: 5px;
+}
