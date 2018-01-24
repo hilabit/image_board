@@ -9,12 +9,26 @@
     </head>
     <body>
 
-        <!-- <div id="main">
-            <div v-for = "image in images">
+
+
+
+        <div id="main">
+
+            <input v-model = "formStuff.title" placeholder="image title">
+            <input v-model = "formStuff.description" name="description" placeholder="image description">
+            <input v-model = "formStuff.username" placeholder="your user name">
+            <input type="file" name="file" v-on:change= "chooseFile" placeholder="choose file">
+            <button type="button" name="submit" v-on:click ="uploadFile">SUBMIT</button>
+
+            <div id = "img-wrapper">
+            <div v-for = "image in images" v-on:click = "showModal">
                 <h1 >{{image.title}}</h1>
                 <img v-bind:src="image.image"  v-bind:alt="image.title.alt"/>
             </div>
-        </div> -->
+            <big-image v-if="currentSelectedImage" v-bind:image="currentSelectedImage" v-on="closeImage"></big-image>
+
+        </div>
+    </div>
 
 
 

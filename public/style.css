@@ -1,11 +1,55 @@
-#main {
-    display: grid;
-    grid-template-columns: repeat(3, 50px [col-start])
-    grid-template-rows: 50px;
+body {
+
+    background-color: magenta;
+    padding: 10px;
+
+
 }
 
+input {
+    height: 30px;
+    width:300px;
+    border-radius: 10px;
+    text-align: center;
+    margin:8px;
+}
+
+button {
+    height: 30px;
+    width:100px;
+    border-radius: 10px;
+}
+
+#main {
+    width:100%;
+
+
+
+
+}
+#img-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+    grid-auto-rows: minmax(300px, auto);
+    grid-template-rows: auto;
+      grid-auto-flow: row;
+    background-color: pink;
+
+}
+
+h1 {
+
+font-family: 'Gloria Hallelujah', cursive;
+    size: 30px;
+    background-color: pink;
+}
 
 img {
     align-self: stretch;
+
+    padding: 8px;
+    width: 100%;
     padding: 5px;
+
 }

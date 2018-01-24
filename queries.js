@@ -16,3 +16,20 @@ exports.getImages = () => {
         return results.rows;
     })
 }
+
+exports.addImageToDataBase = (image, {username, title, description}) => {
+                    return db.query
+                     (`INSERT INTO images (image, username, title, description)
+                                  VALUES ($1, $2, $3, $4)`,[image,username,title,description])
+
+}
+
+exports.chooseSelectedImage = (image, {title, description}) => {
+        return db.query (`SELECT image, title, description
+                         FROM images
+                         WHERE id = $1`, [image, title, description])
+        .then((results) => {
+            console.log('results:', results);
+            return results.rows[0];
+        })
+}
