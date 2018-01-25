@@ -25,7 +25,9 @@
                 <h1 >{{image.title}}</h1>
                 <img v-bind:src="image.image"  v-bind:alt="image.title.alt"/>
             </div>
+            <p>&#x2715</p>
             <big-image v-if="currentSelectedImage" v-bind:image="currentSelectedImage" v-on="closeImage"></big-image>
+
 
         </div>
     </div>

@@ -1,5 +1,9 @@
 //here all vue stuff
 
+Vue.component('big-image', {
+/* data, methods, etc. go here */
+});
+
 const app = new Vue({
             el: '#main', //attach the vue instance to the main id tag
             data: {
@@ -47,7 +51,3 @@ const app = new Vue({
 
             }
         });
-
-        Vue.component('big-image', {
-    /* data, methods, etc. go here */
-});
