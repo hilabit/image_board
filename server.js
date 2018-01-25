@@ -9,6 +9,7 @@ var multer = require('multer');
 var uidSafe = require('uid-safe');
 var path = require('path');
 const getImages = queries.getImages;
+const chooseSelectedImage = queries.chooseSelectedImage;
 const knox = require('knox');
 const fs = require('fs');
 const addImageToDataBase = queries.addImageToDataBase;
@@ -103,6 +104,23 @@ app.post('/upload-image', uploader.single('file'), uploadToS3, (req, res) => {
         })
     }
 });
+
+app.get('/bigImage/:selectedImageId', (req,res) => {
+    console.log("req.params.selectedImageId:",req.params.selectedImageId); //params shows us the url after the : in the GET request
+    chooseSelectedImage(req.params.selectedImageId)
+    .then((results) => {
+        console.log("results:",results);
+        res.json({results})
+
+    }).catch((err) => {
+        console.log("error in get big image", err);
+    })
+
+});
+
+
+
+
 
 
 

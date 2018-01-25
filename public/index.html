@@ -21,12 +21,21 @@
             <button type="button" name="submit" v-on:click ="uploadFile">SUBMIT</button>
 
             <div id = "img-wrapper">
-            <div v-for = "image in images" v-on:click = "showModal">
+            <div v-for = "image in images" v-on:click = "showImage(image.id)">
                 <h1 >{{image.title}}</h1>
                 <img v-bind:src="image.image"  v-bind:alt="image.title.alt"/>
             </div>
-            <p>&#x2715</p>
-            <big-image v-if="currentSelectedImage" v-bind:image="currentSelectedImage" v-on="closeImage"></big-image>
+
+
+
+
+            <big-image v-if="currentSelectedImage" v-bind:image="currentSelectedImage" v-on="closeImage" inline-template>
+                    <div id="big-image-wrapper">
+                        {{image}}
+                <img v-bind:src="image" alt="">
+                </div>
+            </big-image>
+
 
 
         </div>

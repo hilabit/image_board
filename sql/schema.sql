@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS images;
 
 CREATE TABLE images(
     id SERIAL PRIMARY KEY,
-    image VARCHAR(300) NOT NULL,
+    image VARCHAR(300) NOT NULL,  --the name uidSafe gives our image (also part of its url)
     username VARCHAR(255) NOT NULL,
     title VARCHAR(255) NOT NULL,
     description TEXT,

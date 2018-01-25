@@ -5,7 +5,7 @@ const config = require('./config.json')
 
 
 exports.getImages = () => {
-    return db.query (`SELECT image, title
+    return db.query (`SELECT image, title, id
                         FROM images
                         LIMIT 8`)
     .then((results) => {
@@ -24,12 +24,13 @@ exports.addImageToDataBase = (image, {username, title, description}) => {
 
 }
 
-exports.chooseSelectedImage = (image, {title, description}) => {
+exports.chooseSelectedImage = (id) => {
         return db.query (`SELECT image, title, description
                          FROM images
-                         WHERE id = $1`, [image, title, description])
+                         WHERE id = $1`, [id])
         .then((results) => {
             console.log('results:', results);
+            results.rows[0].image = config.s3Url + results.rows[0].image
             return results.rows[0];
         })
 }
