@@ -18,6 +18,6 @@ CREATE TABLE comments(
     commentid SERIAL PRIMARY KEY,
     comment VARCHAR(300) NOT NULL,
     userid VARCHAR(255) NOT NULL,
-    iamgeid VARCHAR (2) NOT NULL,
+    imageid VARCHAR (3) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

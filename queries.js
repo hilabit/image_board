@@ -7,7 +7,7 @@ const config = require('./config.json')
 exports.getImages = () => {
     return db.query (`SELECT image, title, id
                         FROM images
-                        LIMIT 8`)
+                        LIMIT 12`)
     .then((results) => {
         console.log("getImage results", results);
         for( var i = 0; i<results.rows.length; i++) {
@@ -33,4 +33,19 @@ exports.chooseSelectedImage = (id) => {
             results.rows[0].image = config.s3Url + results.rows[0].image
             return results.rows[0];
         })
+}
+
+exports.addCommentToDatabase = (comment, username, imageid) => {
+    return db.query (`INSERT INTO comments (comment, username, imageid)
+                        VALUES ($1, $2, $3)`, [comment, username, imageid])
+
+}
+
+exports.showComment = (imageid) => {
+    return db.query (`SELECT * FROM comments
+                        WHERE imageid = $1`, [imageid])
+    .then((results) => {
+        console.log('comments:', results);
+        return results.rows;
+    })
 }

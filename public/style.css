@@ -35,6 +35,8 @@ button {
     grid-template-rows: auto;
       grid-auto-flow: row;
     background-color: pink;
+    bottom: 0;
+
 
 }
 
@@ -46,10 +48,49 @@ font-family: 'Gloria Hallelujah', cursive;
 }
 
 img {
-    align-self: stretch;
 
+    width:40%;
+    display: block;
+    left: 0;
     padding: 8px;
-    width: 100%;
-    padding: 5px;
 
+
+
+}
+
+image {
+    vertical-align: bottom;
+    bottom: 0;
+    display: inline-block;
+}
+
+#big-image-wrapper {
+
+    width:100%;
+    z-index: 100000;
+    background-color: red;
+}
+
+#even-bigger-div {
+    top:0;
+    left: 0;
+    width:100%;
+    z-index: 12;
+    background-color: blue;
+    position: fixed;
+}
+
+.red-x {
+color: red;
+}
+
+.big-x {
+font-size: 70px;
+text-align: center;
+}
+
+p {
+    font-family: 'Gloria Hallelujah', cursive;
+        size: 10px;
+        background-color: magenta;
 }

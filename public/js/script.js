@@ -1,27 +1,48 @@
 //here all vue stuff
 
 Vue.component('big-image', {
-    props: ['image'], //what this function expects
+    props: ['imageid'], //what this function expects
     data: function() {
-
         return {
-            title: '',
-            description: '',
-            comments:''
+            image: null, //accepts an entire image object
+            comments: null,
+            formField: {
+                username:'',
+                text:'',
 
-
+            }
         }
     },
+    methods:{
+        submitComment: function() {
+
+            axios.post('/inputField', {
+            "username":this.formField.username,
+            "text":this.formField.text,
+            "imageid":this.imageid
+            }).then(response => {
+                console.log("username:", username);
+                addCommentToDatabase(comment, imageid)
+            })
+        }
+    },
+
+    template: '#comments',
+
     mounted: function() { //the html is ready
-        console.log("vue.component:", this.image);
-        const selectedImageId = this.image
+        console.log("vue.component:", this.imageid);
+        const selectedImageId = this.imageid
+        const component = this; //the component loses its scope, we'd have to define it
         axios.get('/bigImage/' + selectedImageId)
-            .then(response => {
+            .then(response => { //the query results
                 console.log("response:",response);
+                component.image = response.data.image
+                console.log("component.image:",component.image);
             })
             .catch(err => console.log("error in mounted", err))
-    },
-});
+    }
+
+}); //END of VUE.COMPONENT
 
 const app = new Vue({
             el: '#main', //attach the vue instance to the main id tag

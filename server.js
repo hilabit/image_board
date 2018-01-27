@@ -13,6 +13,7 @@ const chooseSelectedImage = queries.chooseSelectedImage;
 const knox = require('knox');
 const fs = require('fs');
 const addImageToDataBase = queries.addImageToDataBase;
+const showComment = queries.showComment;
 let secrets;
 if (process.env.NODE_ENV == 'production') {
     secrets = process.env; // in prod the secrets are environment variables
@@ -106,17 +107,34 @@ app.post('/upload-image', uploader.single('file'), uploadToS3, (req, res) => {
 });
 
 app.get('/bigImage/:selectedImageId', (req,res) => {
-    console.log("req.params.selectedImageId:",req.params.selectedImageId); //params shows us the url after the : in the GET request
-    chooseSelectedImage(req.params.selectedImageId)
-    .then((results) => {
-        console.log("results:",results);
-        res.json({results})
-
-    }).catch((err) => {
-        console.log("error in get big image", err);
+    return Promise.all ([
+        chooseSelectedImage(req.params.selectedImageId),
+        showComment(req.params.selectedImageId)
+        // console.log("req.params.selectedImageId",req.params.selectedImageId);
+    ])
+    .then(function([imageResults,commentResults]) { //this is the array of the paromise all results
+        res.json({
+            image: imageResults,
+            comments: commentResults
+        }).catch((err) => {
+            console.log("error in get big image request", err);
+        })
     })
+})
 
-});
+app.post('/insertComment', function(req,res) {
+    console.log("insertComment req.body", req.body);
+    const {imageid, comment, username} = req.body;
+    addCommentToDatabase(imageid, comment, username).then((result) => {
+        console.log("results for addCommentToDatabase", result);
+        res.json(result)
+    }).catch((err) => {
+        console.log("error in insertComment", err);
+    })
+})
+
+
+
 
 
 
