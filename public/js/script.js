@@ -8,21 +8,23 @@ Vue.component('big-image', {
             comments: null,
             formField: {
                 username:'',
-                text:'',
+                comment:'',
 
             }
         }
     },
     methods:{
         submitComment: function() {
-
+            console.log("this.formField:", this.formField);
+            console.log("this.imageid:", this.imageid);
+            const vueComponent = this
             axios.post('/inputField', {
+
             "username":this.formField.username,
-            "text":this.formField.text,
+            "comment":this.formField.comment,
             "imageid":this.imageid
             }).then(response => {
-                console.log("username:", username);
-                addCommentToDatabase(comment, imageid)
+                this.comments.unshift(response.data)
             })
         }
     },
@@ -32,11 +34,13 @@ Vue.component('big-image', {
     mounted: function() { //the html is ready
         console.log("vue.component:", this.imageid);
         const selectedImageId = this.imageid
-        const component = this; //the component loses its scope, we'd have to define it
+        const component = this; //the component loses its scope, we'd have to define it here
         axios.get('/bigImage/' + selectedImageId)
             .then(response => { //the query results
                 console.log("response:",response);
                 component.image = response.data.image
+                component.comments = response.data.comments
+                console.log("component.comments:", component.comments);
                 console.log("component.image:",component.image);
             })
             .catch(err => console.log("error in mounted", err))
@@ -67,8 +71,12 @@ const app = new Vue({
                     formData.append('username', this.formStuff.username)
 
                     axios.post('/upload-image', formData) //should have the same name as my post request
-                        .then(result => {
-                            console.log("in axios.post", result);
+                        .then(result => {  // everything I put in res.json
+                            console.log("in axios.post, result:", result);
+                            console.log("app.images:", app.images);
+                            app.images.unshift(result.data) //unshift is like push, but to the start of the array, instead of its end. we're pushing the selected image file to the beginning of the array of already displayed images
+
+
                         });
 
 

@@ -13,6 +13,7 @@ const chooseSelectedImage = queries.chooseSelectedImage;
 const knox = require('knox');
 const fs = require('fs');
 const addImageToDataBase = queries.addImageToDataBase;
+const addCommentToDatabase = queries.addCommentToDatabase;
 const showComment = queries.showComment;
 let secrets;
 if (process.env.NODE_ENV == 'production') {
@@ -96,8 +97,13 @@ app.post('/upload-image', uploader.single('file'), uploadToS3, (req, res) => {
     console.log("in uploads post");
     if (req.file) {
         addImageToDataBase(req.file.filename, req.body);
+
         res.json({
-            success: true
+            success: true,
+            image: config.s3Url + req.file.filename,
+            title: req.body.title,
+            description: req.body.description,
+            username: req.body.username
         })
     } else {
         res.json({
@@ -113,7 +119,9 @@ app.get('/bigImage/:selectedImageId', (req,res) => {
         // console.log("req.params.selectedImageId",req.params.selectedImageId);
     ])
     .then(function([imageResults,commentResults]) { //this is the array of the paromise all results
+        console.log("comments results:", commentResults);
         res.json({
+            id: req.params.selectedImageId,
             image: imageResults,
             comments: commentResults
         }).catch((err) => {
@@ -122,16 +130,24 @@ app.get('/bigImage/:selectedImageId', (req,res) => {
     })
 })
 
-app.post('/insertComment', function(req,res) {
+app.post('/inputField', function(req,res) {
     console.log("insertComment req.body", req.body);
-    const {imageid, comment, username} = req.body;
-    addCommentToDatabase(imageid, comment, username).then((result) => {
-        console.log("results for addCommentToDatabase", result);
-        res.json(result)
-    }).catch((err) => {
+    const {comment, username, imageid} = req.body;
+    console.log("comment:", comment);
+    addCommentToDatabase(comment, username, imageid).then((results) => {
+        console.log("results for addCommentToDatabase", results); //commentid, created_at
+        res.json({
+            comment: comment,
+            username: username,
+            imageid: imageid,
+            created_at: results.created_at,
+            commentid: results.commentid
+            })
+    .catch((err) => {
         console.log("error in insertComment", err);
     })
 })
+});
 
 
 

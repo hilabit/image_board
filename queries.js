@@ -7,6 +7,7 @@ const config = require('./config.json')
 exports.getImages = () => {
     return db.query (`SELECT image, title, id
                         FROM images
+                        order by id desc
                         LIMIT 12`)
     .then((results) => {
         console.log("getImage results", results);
@@ -37,7 +38,11 @@ exports.chooseSelectedImage = (id) => {
 
 exports.addCommentToDatabase = (comment, username, imageid) => {
     return db.query (`INSERT INTO comments (comment, username, imageid)
-                        VALUES ($1, $2, $3)`, [comment, username, imageid])
+                        VALUES ($1, $2, $3)
+                        RETURNING created_at, commentid`, [comment, username, imageid])
+    .then((results) => {
+        return results.rows[0];
+    })
 
 }
 
