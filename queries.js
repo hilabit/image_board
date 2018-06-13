@@ -10,7 +10,7 @@ exports.getImages = () => {
                         order by id desc
                         LIMIT 12`)
     .then((results) => {
-        console.log("getImage results", results);
+        console.log("holaaaa etImage results", results);
         for( var i = 0; i<results.rows.length; i++) {
             results.rows[i].image =  config.s3Url + results.rows[i].image;
         }

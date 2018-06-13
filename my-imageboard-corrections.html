@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Hila's Image Board</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+
+
+
+    <main role="main">
+        <div class="formStuff">
+
+
+            <input v-model="formStuff.title" placeholder="image title">
+            <input v-model="formStuff.description" name="description" placeholder="image description">
+            <input v-model="formStuff.username" placeholder="your user name">
+            <input type="file" name="file" v-on:change="chooseFile" placeholder="choose file">
+            <button type="button" name="submit" v-on:click="uploadFile">SUBMIT</button>
+
+        </div>
+
+
+        <figure v-for="image in images" v-on:click="showImage(image.id)">
+            <img v-bind:src="image.image" />
+            <figcaption>
+                <h2>{{image.title}}</h2>
+            </figcaption>
+
+        </figure>
+
+
+
+            <big-image v-if="currentSelectedImage" v-bind:imageid="currentSelectedImage" v-on="closeImage" inline-template>
+                <div id="even-bigger-div">
+                    <div v-if= "image" id="big-image-wrapper">
+                        <p>{{image.title}}</p>
+                        <img v-bind:src="image.image" alt="image.title">
+                        <p>{{image.description}}</p>
+
+                    </div>
+                    <div class="comments-wrapper" >
+
+                        <input v-model="formField.username" placeholder="username">
+                        <input v-model="formField.comment" placeholder="your comment">
+                        <button type="button" name="submit" v-on:click="submitComment">SUBMIT</button>
+
+                        <div v-if = "comments" id = "comments" v-for = "comment in comments">
+
+                            <p>{{comment.username}}</p>
+                            <p>{{comment.comment}}</p>
+                            <p>{{comment.created_at}}</p>
+
+                        </div>
+                    </div>
+                </div>
+
+            </big-image>
+
+
+
+        </main>
+    </div>
+
+
+
+
+
+
+
+
+
+    <script src="/js/vue.js"></script>
+    <script src="/js/axios.min.js"></script>
+    <script src="/js/script.js"></script>
+    <!-- both vue and axios are available to us in the script.js file -->
+</body>
+
+</html>
+
+
+
+
+<!-- from internet -->
+
+
+<!-- <main role="main">
+
+  <ul class="flexgrid columns-news">
+    <li>
+      <a href="https://dribbble.com/jlantunez/projects/338916-Protus">
+
+        <figure>
+          <img src="https://source.unsplash.com/tCICLJ5ktBE/800x600" alt="Photo of objects">
+          <figcaption>
+            <p>
+              Category or Date
+            </p>
+            <h2>
+Best Inventions of the 21st Century
+				</h2>
+          </figcaption>
+        </figure>
+      </a>
+    </li>
+    <li>
+      <span class="grid-number">2</span>
+      <span class="ribbon icon"><a href="/fav" title="Favorite - svg icon, no emoji">✩</a></span>
+      <a href="https://dribbble.com/jlantunez/projects/338916-Protus">
+        <figure>
+          <img src="https://source.unsplash.com/mZS7cne5iY0/800x600" alt="Photo of Brooklyn Park">
+          <figcaption>
+            <p>Category or Date</p>
+            <h2>How to Find Nature in the City</h2>
+          </figcaption>
+        </figure>
+      </a>
+    </li>
+    <li>
+      <span class="ribbon"><a href="/rate" title="Rate">7.2</a></span>
+      <a href="https://dribbble.com/jlantunez/projects/338916-Protus">
+        <figure>
+          <img src="https://source.unsplash.com/nRAhNSGCpB4/800x600" alt="Photo of a couple">
+          <figcaption>
+            <p>
+              Category or Date
+            </p>
+            <h2>
+10 Things Happy People Do Differently
+				</h2>
+          </figcaption>
+        </figure>
+      </a>
+    </li>
+    <li>
+      <span class="ribbon">
+      	<a title="Category" href="/category">Category</a>
+      </span>
+      <a href="https://dribbble.com/jlantunez/projects/338916-Protus">
+        <figure>
+          <img src="https://source.unsplash.com/tUh95ZFdZN4/800x600" alt="Photos of Food">
+          <figcaption>
+            <p>
+              Date
+            </p>
+            <h2>
+Classic Spanish Food and Recipes
+				</h2>
+          </figcaption>
+        </figure>
+      </a>
+    </li>
+    <li>
+      <a href="https://dribbble.com/jlantunez/projects/338916-Protus">
+        <span class="grid-number">5</span>
+        <figure>
+          <img src="https://source.unsplash.com/Aa8_X_YgrO4/800x600" alt="Photo of Flat Iron Building">
+          <figcaption>
+            <p>
+              Category or Date
+            </p>
+            <h2>
+12 world famous buildings to inspire you
+				</h2>
+          </figcaption>
+        </figure>
+      </a>
+    </li>
+    <li>
+      <a href="https://dribbble.com/jlantunez/projects/338916-Protus">
+        <figure>
+          <img src="https://source.unsplash.com/cMCqPMqeyNI/800x600" alt="Photo of Avenida Constitución (Seville)">
+          <figcaption>
+            <p>
+              Category or Date
+            </p>
+            <h2>
+Most Popular Street Photos on Instagram Right Now
+				</h2>
+          </figcaption>
+        </figure>
+      </a>
+    </li>
+    <li>
+      <a href="https://dribbble.com/jlantunez/projects/338916-Protus">
+        <figure>
+          <img src="https://source.unsplash.com/6UJ-a8983DI/800x600" alt="Photo of a smiling couple">
+          <figcaption>
+            <p>
+              Category or Date
+            </p>
+            <h2>
+Healthy Eating: Easy Tips for Planning a Healthy Diet
+				</h2>
+          </figcaption>
+        </figure>
+      </a>
+    </li>
+    <li>
+      <span class="ribbon">
+      	<a href="/rate" title="Rate">6.8</a>
+      </span>
+      <a href="https://dribbble.com/jlantunez/projects/338916-Protus">
+        <figure>
+          <img src="https://source.unsplash.com/oU0LEbUxnQU/800x600" alt="Photo of glasses">
+          <figcaption>
+            <p>
+              Category or Date
+            </p>
+            <h2>
+The Most Iconic Designs of Everyday Objects
+				</h2>
+          </figcaption>
+        </figure>
+      </a>
+    </li>
+  </ul>
+
+
+</main> -->
